@@ -18,7 +18,7 @@ The basic rundown for usage of this library is:
 
 A simple code example would be:
 
-```
+```rust
 extern crate i3status;
 use i3status::I3Status;
 use i3status::block::Time;
