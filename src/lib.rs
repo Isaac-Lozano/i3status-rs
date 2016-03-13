@@ -33,7 +33,6 @@
 //! update once a second.
 //!
 //! # Custom Blocks
-//!
 //! If you want to create a custom status block, you will have to create a
 //! struct and impl `Block`.
 //!
