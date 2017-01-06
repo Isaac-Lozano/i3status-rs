@@ -1,4 +1,4 @@
-//! A quick time block. Spits out the output of ctime and updates once a
+//! A quick time block. Spits out the output of strftime and updates once a
 //! second.
 
 use block::{Block, Status};
@@ -6,28 +6,30 @@ use chrono::offset::local::Local;
 use std::time::Duration;
 
 #[derive(Debug)]
-pub struct Time
+pub struct Time<'a>
 {
     time: String,
+    format: &'a str,
 }
 
-impl Time
+impl<'a> Time<'a>
 {
-    pub fn new() -> Time
+    pub fn new(format: &'a str) -> Time<'a>
     {
         Time
         {
             time: String::from(""),
+            format: format,
         }
     }
 }
 
 
-impl Block for Time
+impl<'a> Block for Time<'a>
 {
     fn update(&mut self) -> Duration
     {
-        self.time = format!("{}", Local::now().format("%a %F %T"));
+        self.time = format!("{}", Local::now().format(self.format));
         Duration::new(1, 0)
     }
 
