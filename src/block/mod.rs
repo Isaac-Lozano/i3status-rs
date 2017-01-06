@@ -1,6 +1,8 @@
 pub mod time;
-
 pub use self::time::Time;
+
+pub mod net_usage;
+pub use self::net_usage::NetUsage;
 
 /* TODO: Remove this use */
 use std::fmt;

@@ -2,6 +2,7 @@
 name = "i3status"
 version = "0.1.0"
 dependencies = [
+ "libc 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-serialize 0.3.18 (registry+https://github.com/rust-lang/crates.io-index)",
  "time 0.1.34 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -45,3 +46,10 @@ name = "winapi-build"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
+[metadata]
+"checksum kernel32-sys 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "b5b5e7edf375e6d26243bde172f1d5ed1446f4a766fc9b7006e1fd27258243f1"
+"checksum libc 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)" = "52f45f4d4d75de96cf7f8b0e37b6a8e2f96619749b80bd79aa9f5a3100d63208"
+"checksum rustc-serialize 0.3.18 (registry+https://github.com/rust-lang/crates.io-index)" = "9cf81518cd579f8a9c58c0a71328bdb9be15c754181261da82583092dc8a7ff0"
+"checksum time 0.1.34 (registry+https://github.com/rust-lang/crates.io-index)" = "8c4aeaa1c95974f5763c3a5ac0db95a19793589bcea5d22e161b5587e3aad029"
+"checksum winapi 0.2.5 (registry+https://github.com/rust-lang/crates.io-index)" = "dc3583688b861fcd83c2823d37cf2cd2446c233dd7ba3f97884d1a7302817537"
+"checksum winapi-build 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "2d315eee3b34aca4797b2da6b13ed88266e6d612562a0c46390af8299fc699bc"
