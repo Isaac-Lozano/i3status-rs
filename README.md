@@ -25,9 +25,9 @@ use i3status::block::Time;
 
 fn main()
 {
-    let mut time_block = Time::new();
+    let time_block = Time::new();
     let mut i3s = I3Status::new();
-    i3s.add_block(&mut time_block, "Time");
+    i3s.add_block(time_block, "Time");
     i3s.run();
 }
 ```
