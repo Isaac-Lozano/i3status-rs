@@ -22,7 +22,7 @@
 //!
 //! fn main()
 //! {
-//!     let mut time_block = Time::new();
+//!     let mut time_block = Time::new("%a %F %T");
 //!     let mut i3s = I3Status::new();
 //!     i3s.add_block(&mut time_block, "Time");
 //!     i3s.run();
