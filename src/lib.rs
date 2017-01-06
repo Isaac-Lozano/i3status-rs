@@ -42,7 +42,7 @@
 //! currently being called whenever *any* block is updated.
 
 extern crate rustc_serialize;
-extern crate time;
+extern crate chrono;
 
 pub mod i3status;
 pub mod reader;

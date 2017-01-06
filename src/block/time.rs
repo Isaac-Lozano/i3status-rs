@@ -2,7 +2,7 @@
 //! second.
 
 use block::{Block, Status};
-use time;
+use chrono::offset::local::Local;
 use std::time::Duration;
 
 #[derive(Debug)]
@@ -27,8 +27,7 @@ impl Block for Time
 {
     fn update(&mut self) -> Duration
     {
-        let now = time::now();
-        self.time = format!("{}", now.ctime());
+        self.time = format!("{}", Local::now().format("%a %F %T"));
         Duration::new(1, 0)
     }
 

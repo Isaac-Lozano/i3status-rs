@@ -5,5 +5,5 @@ authors = ["Isaac Lozano <109lozanoi@gmail.com>"]
 
 [dependencies]
 rustc-serialize = "0.3"
-time = "0.1"
 libc = "0.2.8"
+chrono = "0.2"
