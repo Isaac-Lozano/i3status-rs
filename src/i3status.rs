@@ -12,13 +12,13 @@ use std::rc::Rc;
 /* Task */
 /********/
 #[derive(Debug)]
-struct Task<'a>
+struct Task
 {
-    block: Rc<RefCell<&'a mut Block>>,
+    block: Rc<RefCell<Box<Block>>>,
     nanos: u64,
 }
 
-impl<'a> cmp::PartialEq for Task<'a>
+impl cmp::PartialEq for Task
 {
     fn eq(&self, other: &Task) -> bool
     {
@@ -26,11 +26,9 @@ impl<'a> cmp::PartialEq for Task<'a>
     }
 }
 
-impl<'a> cmp::Eq for Task<'a>
-{
-}
+impl cmp::Eq for Task {}
 
-impl<'a> cmp::PartialOrd for Task<'a>
+impl cmp::PartialOrd for Task
 {
     fn partial_cmp(&self, other: &Task) -> Option<cmp::Ordering>
     {
@@ -38,7 +36,7 @@ impl<'a> cmp::PartialOrd for Task<'a>
     }
 }
 
-impl<'a> cmp::Ord for Task<'a>
+impl cmp::Ord for Task
 {
     fn cmp(&self, other: &Task) -> cmp::Ordering
     {
@@ -51,14 +49,14 @@ impl<'a> cmp::Ord for Task<'a>
 /**********/
 /// A type that manages blocks and outputs valid i3bar data.
 #[derive(Debug)]
-pub struct I3Status<'a>
+pub struct I3Status
 {
-    schedule: BinaryHeap<Task<'a>>,
-    block_map: HashMap<String, Rc<RefCell<&'a mut Block>>>, 
-    blocks: Vec<Rc<RefCell<&'a mut Block>>>,
+    schedule: BinaryHeap<Task>,
+    block_map: HashMap<String, Rc<RefCell<Box<Block>>>>, 
+    blocks: Vec<Rc<RefCell<Box<Block>>>>,
 }
 
-impl<'a> I3Status<'a>
+impl I3Status
 {
     /// Constructs a new `I3Status`.
     ///
@@ -67,7 +65,7 @@ impl<'a> I3Status<'a>
     /// # use i3status::I3Status;
     /// let stat = I3Status::new();
     /// ```
-    pub fn new() -> I3Status<'a>
+    pub fn new() -> I3Status
     {
         print!("{{ \"version\": 1 }}[");
         I3Status
@@ -82,9 +80,9 @@ impl<'a> I3Status<'a>
     ///
     /// The resulting status will be in the order that `Block`s are
     /// added into the `I3Status`.
-    pub fn add_block(&mut self, block: &'a mut Block, name: &str)
+    pub fn add_block<B: Block + 'static>(&mut self, block: B, name: &str)
     {
-        let block_cell = Rc::new(RefCell::new(block));
+        let block_cell = Rc::new(RefCell::new(Box::new(block) as Box<_>));
         self.blocks.push(block_cell.clone());
         self.block_map.insert(name.to_string(), block_cell.clone());
     }
