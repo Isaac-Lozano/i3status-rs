@@ -13,14 +13,14 @@ use rustc_serialize::{Encoder, Encodable};
 /* Color */
 /*********/
 /// A struct for specifying color for various parts of the status.
-#[derive(Debug)]
+#[derive(Clone,Copy,Debug)]
 pub struct Color(pub u8, pub u8, pub u8);
 
 impl Encodable for Color
 {
     fn encode<S: Encoder>(&self, s: &mut S) -> Result<(), S::Error>
     {
-        s.emit_str(&format!("#{:X}{:X}{:X}", self.0, self.1, self.2))
+        s.emit_str(&format!("#{:02X}{:02X}{:02X}", self.0, self.1, self.2))
     }
 }
 
@@ -28,7 +28,7 @@ impl Encodable for Color
 /* StatusAlign */
 /***************/
 /// An enum for specifying the alignment of a status.
-#[derive(Debug,RustcEncodable)]
+#[derive(Clone,Copy,Debug,RustcEncodable)]
 pub enum StatusAlign
 {
     Center,
@@ -40,7 +40,7 @@ pub enum StatusAlign
 /* StatusMarkup */
 /****************/
 /// An enum for specifying the markup of a status.
-#[derive(Debug,RustcEncodable)]
+#[derive(Clone,Copy,Debug,RustcEncodable)]
 pub enum StatusMarkup
 {
     Pango,
@@ -55,7 +55,7 @@ pub enum StatusMarkup
 /// This maps directly to the API that i3bar uses to display data.
 ///
 /// The API can be found [here](https://i3wm.org/docs/i3bar-protocol.html)
-#[derive(Debug,RustcEncodable)]
+#[derive(Clone,Debug,RustcEncodable)]
 pub struct Status
 {
     pub full_text: String,
