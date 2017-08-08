@@ -1,11 +1,14 @@
-/* TODO: Clean up imports */
-use block::Block;
-use std::collections::{BinaryHeap, HashMap};
-use rustc_serialize::json;
-use std::{thread, cmp};
-use std::time::Instant;
 use std::cell::RefCell;
+use std::cmp;
+use std::collections::{BinaryHeap, HashMap};
 use std::rc::Rc;
+use std::thread;
+use std::time::Instant;
+
+use rustc_serialize::json;
+
+use block::Block;
+use block::Status;
 
 /********/
 /* Task */
