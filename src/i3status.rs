@@ -5,7 +5,7 @@ use std::rc::Rc;
 use std::thread;
 use std::time::Instant;
 
-use rustc_serialize::json;
+use serde_json;
 
 use block::Block;
 use block::Status;
@@ -112,7 +112,7 @@ impl I3Status {
     fn update_status(&self) {
         print!("[");
         for (idx, status) in self.statuses.iter().enumerate() {
-            print!("{}", json::encode(&status).unwrap());
+            print!("{}", serde_json::to_string(&*status.borrow_mut()).unwrap());
 
             if idx != self.statuses.len() - 1 {
                 print!(",");

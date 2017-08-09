@@ -41,7 +41,10 @@
 //! `get_status` function. This is because the `get_status` function is
 //! currently being called whenever *any* block is updated.
 
-extern crate rustc_serialize;
+extern crate serde;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde_json;
 extern crate chrono;
 
 pub mod i3status;

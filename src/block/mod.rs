@@ -7,7 +7,8 @@ pub use self::net_usage::NetUsage;
 /* TODO: Remove this use */
 use std::fmt;
 use std::time::Duration;
-use rustc_serialize::{Encoder, Encodable};
+
+use serde::{Serialize, Serializer};
 
 /*********/
 /* Color */
@@ -16,9 +17,11 @@ use rustc_serialize::{Encoder, Encodable};
 #[derive(Clone,Copy,Debug)]
 pub struct Color(pub u8, pub u8, pub u8);
 
-impl Encodable for Color {
-    fn encode<S: Encoder>(&self, s: &mut S) -> Result<(), S::Error> {
-        s.emit_str(&format!("#{:02X}{:02X}{:02X}", self.0, self.1, self.2))
+impl Serialize for Color {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where S: Serializer
+    {
+        serializer.serialize_str(&format!("#{:02X}{:02X}{:02X}", self.0, self.1, self.2))
     }
 }
 
@@ -26,7 +29,7 @@ impl Encodable for Color {
 /* StatusAlign */
 /***************/
 /// An enum for specifying the alignment of a status.
-#[derive(Clone,Copy,Debug,RustcEncodable)]
+#[derive(Clone,Copy,Debug,Serialize)]
 pub enum StatusAlign {
     Center,
     Left,
@@ -37,7 +40,7 @@ pub enum StatusAlign {
 /* StatusMarkup */
 /****************/
 /// An enum for specifying the markup of a status.
-#[derive(Clone,Copy,Debug,RustcEncodable)]
+#[derive(Clone,Copy,Debug,Serialize)]
 pub enum StatusMarkup {
     Pango,
     None,
@@ -51,7 +54,7 @@ pub enum StatusMarkup {
 /// This maps directly to the API that i3bar uses to display data.
 ///
 /// The API can be found [here](https://i3wm.org/docs/i3bar-protocol.html)
-#[derive(Clone,Debug,RustcEncodable)]
+#[derive(Clone,Debug,Serialize)]
 pub struct Status {
     pub full_text: String,
     pub short_text: Option<String>,

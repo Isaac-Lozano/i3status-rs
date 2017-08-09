@@ -4,6 +4,8 @@ version = "0.1.0"
 authors = ["Isaac Lozano <109lozanoi@gmail.com>"]
 
 [dependencies]
-rustc-serialize = "0.3"
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0"
 libc = "0.2.8"
 chrono = "0.2"
