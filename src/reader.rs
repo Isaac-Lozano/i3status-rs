@@ -8,36 +8,25 @@ use std::char;
 
 /// A reader that is used in the JSON parser
 #[derive(Debug)]
-pub struct Reader<R: Read>
-{
+pub struct Reader<R: Read> {
     read_from: R,
 }
 
-impl<R: Read> Reader<R>
-{
+impl<R: Read> Reader<R> {
     /// Creates a new `Reader<R>` from an object that implements `Read`
-    pub fn new(r: R) -> Reader<R>
-    {
-        Reader
-        {
-            read_from: r,
-        }
+    pub fn new(r: R) -> Reader<R> {
+        Reader { read_from: r }
     }
 }
 
-impl<R: Read> Iterator for Reader<R>
-{
+impl<R: Read> Iterator for Reader<R> {
     type Item = char;
 
-    fn next(&mut self) -> Option<char>
-    {
+    fn next(&mut self) -> Option<char> {
         let mut buf = [0u8; 1];
-        match self.read_from.read_exact(&mut buf)
-        {
-            Ok(_) =>
-                Some(char::from_u32(buf[0] as u32).unwrap()),
-            Err(_) =>
-                None,
+        match self.read_from.read_exact(&mut buf) {
+            Ok(_) => Some(char::from_u32(buf[0] as u32).unwrap()),
+            Err(_) => None,
         }
     }
 }

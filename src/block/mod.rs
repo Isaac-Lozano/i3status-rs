@@ -16,10 +16,8 @@ use rustc_serialize::{Encoder, Encodable};
 #[derive(Clone,Copy,Debug)]
 pub struct Color(pub u8, pub u8, pub u8);
 
-impl Encodable for Color
-{
-    fn encode<S: Encoder>(&self, s: &mut S) -> Result<(), S::Error>
-    {
+impl Encodable for Color {
+    fn encode<S: Encoder>(&self, s: &mut S) -> Result<(), S::Error> {
         s.emit_str(&format!("#{:02X}{:02X}{:02X}", self.0, self.1, self.2))
     }
 }
@@ -29,8 +27,7 @@ impl Encodable for Color
 /***************/
 /// An enum for specifying the alignment of a status.
 #[derive(Clone,Copy,Debug,RustcEncodable)]
-pub enum StatusAlign
-{
+pub enum StatusAlign {
     Center,
     Left,
     Right,
@@ -41,8 +38,7 @@ pub enum StatusAlign
 /****************/
 /// An enum for specifying the markup of a status.
 #[derive(Clone,Copy,Debug,RustcEncodable)]
-pub enum StatusMarkup
-{
+pub enum StatusMarkup {
     Pango,
     None,
 }
@@ -56,8 +52,7 @@ pub enum StatusMarkup
 ///
 /// The API can be found [here](https://i3wm.org/docs/i3bar-protocol.html)
 #[derive(Clone,Debug,RustcEncodable)]
-pub struct Status
-{
+pub struct Status {
     pub full_text: String,
     pub short_text: Option<String>,
     pub color: Option<Color>,
@@ -73,13 +68,10 @@ pub struct Status
     pub markup: Option<StatusMarkup>,
 }
 
-impl Status
-{
+impl Status {
     /// Creates a new `Status` with default values.
-    pub fn new(full_text: String) -> Status
-    {
-        Status
-        {
+    pub fn new(full_text: String) -> Status {
+        Status {
             full_text: full_text,
             short_text: None,
             color: None,
@@ -103,13 +95,12 @@ impl Status
 /// Trait for status blocks.
 ///
 /// Each block in the resulting status is tied to a `Block`. Each block gets
-/// updated via its `update` method and its status is returned via the 
+/// updated via its `update` method and its status is returned via the
 /// `get_status` method.
 ///
 /// The `click_callback` function is currently not used, but it eventually
 /// will be called when i3bar sends a click event to the block.
-pub trait Block: fmt::Debug
-{
+pub trait Block: fmt::Debug {
     /// Updates the `Block`. Returns a `Duration` that represents how long
     /// to wait till the next update call.
     fn update(&mut self) -> (Status, Duration);
