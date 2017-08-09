@@ -8,7 +8,6 @@ use std::time::Duration;
 #[derive(Debug)]
 pub struct Time<'a>
 {
-    time: String,
     format: &'a str,
 }
 
@@ -18,7 +17,6 @@ impl<'a> Time<'a>
     {
         Time
         {
-            time: String::from(""),
             format: format,
         }
     }
@@ -27,15 +25,10 @@ impl<'a> Time<'a>
 
 impl<'a> Block for Time<'a>
 {
-    fn update(&mut self) -> Duration
+    fn update(&mut self) -> (Status, Duration)
     {
-        self.time = format!("{}", Local::now().format(self.format));
-        Duration::new(1, 0)
-    }
-
-    fn get_status(&self) -> Status
-    {
-        Status::new(self.time.clone())
+        let time = format!("{}", Local::now().format(self.format));
+        (Status::new(time), Duration::new(1, 0))
     }
 
     fn click_callback(&mut self)

@@ -132,7 +132,7 @@ impl NetUsage
 
 impl Block for NetUsage
 {
-    fn update(&mut self) -> Duration
+    fn update(&mut self) -> (Status, Duration)
     {
         let ifaddrs = IFAddrs::get();
 
@@ -157,14 +157,8 @@ impl Block for NetUsage
         self.last_up = cur_up;
         self.last_down = cur_down;
 
-        Duration::new(3, 0)
-    }
-
-    fn get_status(&self) -> Status
-    {
-        let mut status = Status::new(format!("↑ {} - ↓ {}", format_bytes(self.up/3), format_bytes(self.down/3)));
-//        status.color = Some(Color(((self.down / 3) * 255 / 5000000) as u8, (255 - ((self.down / 3) * 255 / 5000000)) as u8, 30));
-        status
+        let status = Status::new(format!("↑ {} - ↓ {}", format_bytes(self.up/3), format_bytes(self.down/3)));
+        (status, Duration::new(3, 0))
     }
 
     fn click_callback(&mut self)

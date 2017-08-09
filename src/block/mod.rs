@@ -112,13 +112,7 @@ pub trait Block: fmt::Debug
 {
     /// Updates the `Block`. Returns a `Duration` that represents how long
     /// to wait till the next update call.
-    fn update(&mut self) -> Duration;
-
-    /// Returns the status of the block.
-    ///
-    /// **Note**: Little to no processing should be done in this method.
-    /// Processing should all be done in the `update` method.
-    fn get_status(&self) -> Status;
+    fn update(&mut self) -> (Status, Duration);
 
     /// **UNIMPLEMENTED**
     fn click_callback(&mut self);

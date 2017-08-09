@@ -17,6 +17,7 @@ use block::Status;
 struct Task
 {
     block: Rc<RefCell<Box<Block>>>,
+    status: Rc<RefCell<Status>>,
     update_time: Instant,
 }
 
@@ -55,7 +56,7 @@ pub struct I3Status
 {
     schedule: BinaryHeap<Task>,
     block_map: HashMap<String, Rc<RefCell<Box<Block>>>>, 
-    blocks: Vec<Rc<RefCell<Box<Block>>>>,
+    statuses: Vec<Rc<RefCell<Status>>>,
 }
 
 impl I3Status
@@ -74,7 +75,7 @@ impl I3Status
         {
             schedule: BinaryHeap::new(),
             block_map: HashMap::new(),
-            blocks: Vec::new(),
+            statuses: Vec::new(),
         }
     }
 
@@ -85,25 +86,22 @@ impl I3Status
     pub fn add_block<B: Block + 'static>(&mut self, block: B, name: &str)
     {
         let block_cell = Rc::new(RefCell::new(Box::new(block) as Box<_>));
-        self.blocks.push(block_cell.clone());
+        let status_cell = Rc::new(RefCell::new(Status::new(String::new())));
         self.block_map.insert(name.to_string(), block_cell.clone());
+        self.statuses.push(status_cell.clone());
+        self.schedule.push(
+            Task
+            {
+                block: block_cell,
+                status: status_cell,
+                update_time: Instant::now(),
+            }
+        );
     }
 
     /// Runs an infinite loop, updating and printing out i3bar-compatable json data.
     pub fn run(&mut self)
     {
-        /* Insert an update request in for each block */
-        for block in self.blocks.iter()
-        {
-            self.schedule.push(
-                Task
-                {
-                    block: block.clone(),
-                    update_time: Instant::now(),
-                }
-            );
-        }
-
         /* run the updaters */
         loop
         {
@@ -116,29 +114,30 @@ impl I3Status
                 thread::sleep(task.update_time - now);
             }
 
-            let dur = task.block.borrow_mut().update();
+            let (status, dur) = task.block.borrow_mut().update();
+            *task.status.borrow_mut() = status;
 
             self.schedule.push(
                 Task
                 {
                     block: task.block.clone(),
+                    status: task.status.clone(),
                     update_time: Instant::now() + dur,
                 }
             );
 
             self.update_status();
-
         }
     }
 
     fn update_status(&self)
     {
         print!("[");
-        for (idx, block) in self.blocks.iter().enumerate()
+        for (idx, status) in self.statuses.iter().enumerate()
         {
-            print!("{}", json::encode(&block.borrow_mut().get_status()).unwrap());
+            print!("{}", json::encode(&status).unwrap());
 
-            if idx != self.blocks.len()-1
+            if idx != self.statuses.len() - 1
             {
                 print!(",");
             }
