@@ -57,17 +57,29 @@ pub enum StatusMarkup {
 #[derive(Clone,Debug,Serialize)]
 pub struct Status {
     pub full_text: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub short_text: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub color: Option<Color>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub background: Option<Color>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub border: Option<Color>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub min_width: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub align: Option<StatusAlign>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub instance: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub urgent: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub separator: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub separator_block_width: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub markup: Option<StatusMarkup>,
 }
 
