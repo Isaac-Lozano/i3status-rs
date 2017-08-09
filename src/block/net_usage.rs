@@ -4,7 +4,7 @@ extern crate libc;
 use std::ptr;
 use std::ffi::CStr;
 
-use block::{Block, Status, Color};
+use block::{Block, Status};
 use std::time::Duration;
 
 #[derive(Debug)]
